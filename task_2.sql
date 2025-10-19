@@ -1,32 +1,42 @@
-import mysql.connector
-from mysql.connector import Error
+USE alx_book_store;
 
-def create_database():
-    connection = None
-    try:
-        connection = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='your_password'  # 🔑 Replace with your actual MySQL password
-        )
+CREATE TABLE AUTHORS (
+    author_id INT PRIMARY KEY,
+    author_name VARCHAR(215)
+);
 
-        if connection.is_connected():
-            cursor = connection.cursor()
-            try:
-                cursor.execute("CREATE DATABASE IF NOT EXISTS alx_book_store")
-                print("Database 'alx_book_store' created successfully!")
-            except Error as e:
-                print(f"Error creating database: {e}")
-            finally:
-                cursor.close()
+CREATE TABLE BOOKS (
+    book_id INT PRIMARY KEY,
+    title VARCHAR(130),
+    author_id INT,
+    price DOUBLE,
+    publication_date DATE,
+    FOREIGN KEY (author_id) REFERENCES AUTHORS(author_id)
+);
 
-    except Error as e:
-        print(f"Error connecting to MySQL server: {e}")
+CREATE TABLE CUSTOMERS (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(215),
+    email VARCHAR(215),
+    address TEXT
+);
 
-    finally:
-        if connection and connection.is_connected():
-            connection.close()
-            print("MySQL connection closed.")
+CREATE TABLE ORDERS (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES CUSTOMERS(customer_id)
+);
 
-if __name__ == "__main__":
-    create_database()
+CREATE TABLE ORDER_DETAILS (
+    orderdetailid INT PRIMARY KEY,
+    order_id INT,
+    book_id INT,
+    quantity DOUBLE,
+    FOREIGN KEY (order_id) REFERENCES ORDERS(order_id),
+    FOREIGN KEY (book_id) REFERENCES BOOKS(book_id)
+);
+
+
+
+
