@@ -1,3 +1,4 @@
+
 USE alx_book_store;
 
 CREATE TABLE AUTHORS (
@@ -36,6 +37,7 @@ CREATE TABLE ORDER_DETAILS (
     FOREIGN KEY (order_id) REFERENCES ORDERS(order_id),
     FOREIGN KEY (book_id) REFERENCES BOOKS(book_id)
 );
+
 
 
 
